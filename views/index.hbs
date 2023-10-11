@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            background-color: #007bff;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            font-size: 16px;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            color: #333;
+            margin-top: 30px;
+        }
+
+        p {
+            color: #666;
+        }
+
+        img {
+            max-width: 200px;
+            max-height: 200px;
+            border: 2px solid #007bff;
+            border-radius: 50%;
+            margin: 10px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/admin/update-keys">Update Bot Settings</a>
+        <a href="/admin/list-users">Update User Settings</a>
+    </div>
+
+    <h1>User Information:</h1>
+    <p>Email: {{email}}</p>
+    <p>First Name: {{firstName}}</p>
+    <p>Last Name: {{lastName}}</p>
+    <img src="{{picture}}" alt="Profile Picture">
+</body>
+</html>
