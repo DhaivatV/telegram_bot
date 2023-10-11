@@ -107,6 +107,12 @@
     <input type="submit" value="Block User">
   </form>
 
+   <form method="post" action="/admin/unblock-user">
+    <label for="unblock-user">Enter User ID to Unblock:</label>
+    <input type="text" name="unblock-user" id="unblock-user" placeholder="Enter userId">
+    <input type="submit" value="Unblock User">
+  </form>
+
   <form method="post" action="/admin/delete-user">
     <label for="delete-user">Enter User ID to Delete:</label>
     <input type="text" name="delete-user" id="delete-user" placeholder="Enter userId">

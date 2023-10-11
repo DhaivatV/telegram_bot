@@ -96,6 +96,23 @@ export class AdminController {
       return { entity: 'Error deleting user' };
     }
   }
+
+  @Post('unblock-user')
+  @Render('result')
+  unblockUser(@Body() body) {
+    try {
+      const { 'unblock-user': userId } = body; 
+
+      const entityObject = { id: userId, attributeName: 'isBlocked', attributeValue: false };
+      // console.log(entityObject);
+      updateUserEntity('teleBot', entityObject);
+      return { entity: 'User unblocked' };
+    } catch (error) {
+      console.error('Error unblocking user:', error);
+      return { entity: 'Error unblocking user' };
+    }
+  }
+  
 }
 
 
