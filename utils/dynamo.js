@@ -5,9 +5,9 @@
   require('dotenv').config();
 
   AWS.config.update({
-    region: 'process.env.AWS__DEFAULT_REGION',
-    accessKeyId: 'process.env.AWS_ACCESS_KEY',
-    secretAccessKey: 'process.env.AWS_SECRET_KEY',
+    region: process.env.AWS__DEFAULT_REGION,
+    accessKeyId: process.env.AWS_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_SECRET_KEY,
   });
 
   const dynamo = new AWS.DynamoDB.DocumentClient();
@@ -66,7 +66,7 @@
     console.error('DynamoDB Error:', error);
     throw error;
   }
-  //function to update value of an attribute in a table
+ 
 
   async function updateBotEntity(TABLE_NAME, entityObject) {
 
@@ -114,7 +114,6 @@
     }
   }
 
-  //funtion to delete an entity from a table 
   async function deleteUserEntity(TABLE_NAME, userId) {
     const params = {
       TableName: TABLE_NAME,

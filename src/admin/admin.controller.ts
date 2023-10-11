@@ -25,33 +25,37 @@ export class AdminController {
   @Get('update-keys')
   @Render('update-keys')
   async getUpdateKeysPage() {
-  // fetch the keys from the database dynamo db where table name is botkeys and primary key is keyName
-
+  
 
   var telegramKey = await getEntitiesByAttribute('botkeys', 'keyName', 'telegramKey');
   var weatherAPI = await getEntitiesByAttribute('botkeys', 'keyName', 'weatherAPI');
   var telegramKey = telegramKey[0].keyValue;
   var weatherAPI = weatherAPI[0].keyValue;
-  // console.log(telegramKey[0].keyValue, weatherAPI[0].keyValue);
   return {telegramKey, weatherAPI};
   }
 
-  // create a post route to handle the form submission
+
   @Post('update-keys')
   @Render('result')
   postUpdateKeysPage(@Body() body) {
-  //update the keys in the database dynamo db where table name is botkeys and primary key is keyName
-  const {telegramKey, weatherAPI} = body;
- 
-  updateBotEntity('botkeys',  {id: 'telegramKey', attributeName:"keyValue", attributeValue:telegramKey});
-  updateBotEntity('botkeys', {id: 'weatherAPI', attributeName:"keyValue", attributeValue:weatherAPI});
   
-  return  ({entity: "Bot Keys"})
+  const {telegramKey, weatherAPI} = body;
+
+  if(telegramKey != ''){
+    const entityObject = { id: 'telegramKey', attributeName: 'keyValue', attributeValue: telegramKey };
+    updateBotEntity('botkeys', entityObject);
+  }
+  if(weatherAPI != ''){
+    const entityObject = { id: 'weatherAPI', attributeName: 'keyValue', attributeValue: weatherAPI };
+    updateBotEntity('botkeys', entityObject);
+  }
+  
+  return  ({entity: "Bot Keys Updated"})
 
   }
 
   
-  //get the list of all the users
+
   @Get('list-users')
   @Render('list-users')
   async getListUsersPage() {
@@ -60,12 +64,12 @@ export class AdminController {
     return { user_arr};
   }
 
-  //post route to block the user
+
   @Post('block-user')
   @Render('result')
   blockUser(@Body() body) {
     try {
-      const { 'userId': userId } = body; // Access userId using the key 'block-user'
+      const { 'userId': userId } = body; 
 
       const entityObject = { id: userId, attributeName: 'isBlocked', attributeValue: true };
       // console.log(entityObject);

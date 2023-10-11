@@ -23,9 +23,9 @@ export class AppController {
 @Controller()
 export class RootController {
   @Get()
-  @Render('home') // Assuming 'index' is the name of your Handlebars (HBS) template
+  @Render('home') 
   root() {
-    // Add any data you want to pass to the template here
+
     const data = { message: 'Hello, World!' };
     return data;
   }

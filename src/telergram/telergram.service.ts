@@ -20,8 +20,7 @@ export class TelegramService {
 
   
   constructor() {
-    // Initialize your Telegram bot here
-    // Replace 'YOUR_TELEGRAM_BOT_TOKEN' with your actual bot token
+
     async function initializeBot() {
       const abc = await getEntities('botkeys');
       const res = abc.Items[0].keyValue;
@@ -30,11 +29,10 @@ export class TelegramService {
     }
     
     initializeBot.bind(this)();
-    // Initialize AWS DynamoDB
     AWS.config.update({
-      region: 'process.env.AWS__DEFAULT_REGION',
-      accessKeyId: 'process.env.AWS_ACCESS_KEY',
-      secretAccessKey: 'process.env.AWS_SECRET_KEY',
+      region: process.env.AWS__DEFAULT_REGION,
+      accessKeyId: process.env.AWS_ACCESS_KEY,
+      secretAccessKey: process.env.AWS_SECRET_KEY,
     });
     this.dynamoDB = new AWS.DynamoDB();
   }
@@ -52,8 +50,8 @@ export class TelegramService {
         Item: {
           'username': { S: username },
           'userId': { S: userId.toString() },
-          'location': { S: 'N/A' }, // Set initial location as "N/A"
-          'isBlocked': { BOOL: false }, // Add the isBlocked attribute with a default value of false
+          'location': { S: 'N/A' }, 
+          'isBlocked': { BOOL: false }, 
         },
       };
   
@@ -72,7 +70,7 @@ export class TelegramService {
     const username = msg.from.first_name;
   
     if (msg.text === '/start') {
-      // Handle user registration
+  
       const registeredUser = await this.registerUser(userId, username);
       if (registeredUser) {
         this.sendMessage(chatId, `Welcome, ${username}! Please provide your location using /setlocation.`);
@@ -80,7 +78,7 @@ export class TelegramService {
         this.sendMessage(chatId, `Welcome back, ${username}!`);
       }
     } else if (msg.text === '/setlocation') {
-      // Handle location update
+  
       this.sendMessage(chatId, 'Please enter your new location:');
     } else if (msg.text && msg.text.startsWith('/weather')) {
       const user = await this.findUser(userId);
@@ -98,7 +96,7 @@ export class TelegramService {
           this.sendMessage(chatId, "Sorry, something went wrong while fetching weather data.");
         });
     } else if (msg.text) {
-      // Handle location update input
+  
       await this.updateLocation(userId, msg.text);
       this.sendMessage(chatId, 'Location updated successfully.');
     }
@@ -172,7 +170,7 @@ export class TelegramService {
       const weatherData = response.data.data.values;
 
       if (weatherData) {
-        const temperature = weatherData.temperature.toFixed(2); // Temperature in Celsius
+        const temperature = weatherData.temperature.toFixed(2); 
         const humidity = weatherData.humidity;
         const weatherDescription = this.getWeatherDescription(weatherData.weatherCode);
 
@@ -187,10 +185,10 @@ export class TelegramService {
   }
 
   getWeatherDescription(weatherCode: number) {
-    // Define a mapping of weather codes to descriptions as needed
+   
     const weatherDescriptions = {
       1102: "Clear Sky",
-      // Add more mappings as needed
+      
     };
 
     return weatherDescriptions[weatherCode] || "Unknown";
@@ -208,8 +206,7 @@ export class TelegramService {
         const userId = item.userId.S;
         const location = item.location.S;
         const placeName = location;
-        const isBlocked = item.isBlocked.BOOL; // Get the isBlocked attribute
-
+        const isBlocked = item.isBlocked.BOOL; 
         if (!isBlocked) {
           const weatherInfo = await this.getWeatherInfo(placeName);
           this.sendMessage(userId, weatherInfo);
