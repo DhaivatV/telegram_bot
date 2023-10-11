@@ -8,7 +8,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     super({
       clientID: process.env.CLIENT_ID,
       clientSecret: process.env.CLIENT_SECRET,
-      callbackURL: 'http://localhost:3000/admin',
+      callbackURL: 'https://extinct-fedora-clam.cyclic.app/admin',
       scope: ['email', 'profile'],
     });
   }
