@@ -11,7 +11,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
       callbackURL: 'http://localhost:3000/admin',
       scope: ['email', 'profile'],
     });
-  }   
+  }
   async validate(
     accessToken: string,
     refreshToken: string,
